@@ -286,9 +286,8 @@ class Scratch3PoseNetBlocks {
 
     async ensureTaskModelLoaded() {
         if (!this.taskModel) {
-            this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom/model.json");
-            // this.taskModel = await tf.loadGraphModel("https://storage.googleapis.com/tfjs-examples/simple-object-detection/dist/object_detection_model/model.json");
-            // this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Hyuto/yolov5-tfjs/master/public/yolov5n_web_model/model.json");
+            //this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom/model.json");
+            this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom_new/model.json");
         }
         return this.taskModel;
     }
