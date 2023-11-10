@@ -226,14 +226,8 @@ class Scratch3PoseNetBlocks {
             const time = +new Date();
             if (frame) {
                 
-                // await this.spotObjects(frame);
                 this.currImage = frame;
-                // var boundingBoxes = await objectList[2].array();
-                // console.log("=============", boundingBoxes);
                 
-                // if (this.objectState) {
-                //     console.log(this.objectState);
-                // }
                 if (this.hasPose()) {
                     this.runtime.emit(this.runtime.constructor.PERIPHERAL_CONNECTED);
                 } else {
@@ -270,11 +264,6 @@ class Scratch3PoseNetBlocks {
 
     async spotObjects(imageElement) {
         
-        
-        // tf.dispose();
-        // tf.dispose(imageTensor);
-        // return result;
-        // tf.engine().endScope();
     }
 
     async ensureBodyModelLoaded() {
@@ -286,8 +275,8 @@ class Scratch3PoseNetBlocks {
 
     async ensureTaskModelLoaded() {
         if (!this.taskModel) {
-            //this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom/model.json");
-            this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom_new/model.json");
+            this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom/model.json");
+            //this.taskModel = await tf.loadGraphModel("https://raw.githubusercontent.com/Adit31/Explorer_Treat/master/best_web_model_custom_new/model.json");
         }
         return this.taskModel;
     }
@@ -563,11 +552,6 @@ class Scratch3PoseNetBlocks {
 
 
     drawBoxes(boundingBoxes, confids, classes) {
-        console.log("boxes", boundingBoxes);
-        console.log("confids", confids);
-        console.log("classes", classes);
-        console.log(tf.memory());
-
         var bbs = document.getElementsByClassName("boundingBoxes");
         while (bbs.length > 0) {
             bbs[0].remove();
@@ -589,7 +573,7 @@ class Scratch3PoseNetBlocks {
                 yellowBox.style.border = '1px solid black';
                 yellowBox.style.width = (w * 405).toString()+"px";
                 yellowBox.style.height = (h * 305).toString()+"px";
-                yellowBox.style.bottom = (y1 * 305).toString()+"px";
+                yellowBox.style.top = (y1 * 305).toString()+"px";
                 yellowBox.style.left = (x1 * 405).toString()+"px";
                 yellowBox.style.position = 'absolute';
                 yellowBox.classList.add("boundingBoxes");
@@ -608,12 +592,10 @@ class Scratch3PoseNetBlocks {
             const boxes_data = boxes.dataSync();
             const scores_data = scores.dataSync();
             const classes_data = classes.dataSync();
-            // console.log(boxes_data);
             this.drawBoxes(boxes_data, scores_data, classes_data);
             tf.dispose(res);
         });
         
-        // tf.dispose(objectList);
         tf.engine().endScope();
 
     }
