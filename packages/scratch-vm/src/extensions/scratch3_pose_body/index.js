@@ -217,6 +217,7 @@ class Scratch3PoseNetBlocks {
     }
 
     async _loop () {
+        this.objectCenters = [[], [], []];
         while (true) {
             const frame = this.runtime.ioDevices.video.getFrame({
                 format: Video.FORMAT_IMAGE_DATA,
@@ -557,6 +558,13 @@ class Scratch3PoseNetBlocks {
             bbs[0].remove();
         }
 
+        // var objectCenters = [[], [], []];
+        // basketball -> 0, hoop -> 1, player -> 2
+
+        var flagB = 0;
+        var flagH = 0;
+        var flagP = 0;
+
         for (let i=0; i<100; i++) {
             if (confids[i] > 0.5) {
                 var x1 = (boundingBoxes[4*i]/416)*480;
@@ -579,8 +587,41 @@ class Scratch3PoseNetBlocks {
                 yellowBox.classList.add("boundingBoxes");
 
                 childDiv.appendChild(yellowBox);
+
+                if(classes[i] == 0)
+                {
+                    if(flagB == 0)
+                    {
+                        this.objectCenters[0] = [];
+                    }
+                    flagB = 1;
+                    this.objectCenters[0].push([((x1 + x2)/2) * 405, ((y1 + y2)/2) * 305]);
+                }
+
+                else if(classes[i] == 1)
+                {
+                    if(flagH == 0)
+                    {
+                        this.objectCenters[1] = [];
+                    }
+                    flagH = 1;
+                    this.objectCenters[1].push([((x1 + x2)/2) * 405, ((y1 + y2)/2) * 305]);
+                }
+
+                else
+                {
+                    if(flagP == 0)
+                    {
+                        this.objectCenters[2] = [];
+                    }
+                    flagP = 1;
+                    this.objectCenters[2].push([((x1 + x2)/2) * 405, ((y1 + y2)/2) * 305]);
+                }
             }
         }
+        console.log("Basketball: ", this.objectCenters[0]);
+        console.log("Hoop: ", this.objectCenters[1]);
+        console.log("Player: ", this.objectCenters[2]);
     }
 
     async goToObjects(args, util) {        
